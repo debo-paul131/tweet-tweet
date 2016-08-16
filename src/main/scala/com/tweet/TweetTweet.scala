@@ -1,28 +1,22 @@
+package com.tweet
+/**
+ * @author debojit
+ */
 
 import org.apache.spark._
-import org.apache.spark.rdd.RDD
-import org.apache.spark.SparkConf
 import org.apache.spark.streaming.twitter.TwitterUtils
-import org.apache.spark.streaming.{ Seconds, StreamingContext }
-import scala.collection.immutable.HashMap
 import com.datastax.spark.connector.streaming._
 import com.datastax.spark.connector._
 import org.apache.spark.Logging
 import play.api.libs.json._
-import scala.concurrent.Future
 import scala.concurrent.Await
-import scala.util.{ Success, Failure }
-import scala.concurrent.ExecutionContext.Implicits.global
 import twitter4j.GeoLocation
 import twitter4j.Place
 import scala.concurrent.duration._
-import com.ning.http.client.AsyncHttpClientConfig
 import play.api.libs.ws.ning._
 import play.api.libs.ws._
 import java.net.URLEncoder
-import org.apache.log4j.{ Level, Logger }
-import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
-import org.apache.spark.mllib.classification.{ NaiveBayes, NaiveBayesModel }
+
 
 case class Extract(createdAt: String, geoInfo: String, text: String, stopWordRemovedText: String, intents: String, sentiment: String)
 

@@ -1,4 +1,4 @@
-
+package com.tweet
 
 /**
  * @author debojit
@@ -7,13 +7,10 @@
 import org.apache.spark._
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
-import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
-import org.apache.spark.mllib.util.MLUtils
 import org.apache.spark.rdd.RDD
-import org.apache.spark.mllib.classification.{ NaiveBayes, NaiveBayesModel }
-import org.apache.spark.mllib.feature.HashingTF
-import org.apache.spark.mllib.linalg.Vector
+import org.apache.spark.mllib.classification.NaiveBayes
+
 
 object NaiveBayesTrainer extends Logging {
 

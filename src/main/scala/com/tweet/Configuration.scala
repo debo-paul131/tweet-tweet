@@ -1,3 +1,4 @@
+package com.tweet
 /**
  * @author debojit
  */
@@ -5,10 +6,8 @@
 import org.apache.spark._
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{ Seconds, StreamingContext }
-import com.ning.http.client.AsyncHttpClientConfig
 import play.api.libs.ws.ning._
 import play.api.libs.ws._
-import org.apache.spark.streaming.twitter.TwitterUtils
 
 class Configuration(args: Array[String]) {
 

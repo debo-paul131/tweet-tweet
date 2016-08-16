@@ -3,9 +3,12 @@
 /**
  * @author debojit
  */
-import java.io.InputStream
+package com.tweet
+
 import org.apache.spark.mllib.feature.HashingTF
 import org.apache.spark.mllib.linalg.Vector
+import java.io.File
+import scala.io.Source
 
 object Utils {
 

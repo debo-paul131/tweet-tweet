@@ -2,9 +2,12 @@
 /**
  * @author debojit
  */
+package com.tweet
+
 import org.apache.spark._
 import org.apache.spark.streaming.twitter.TwitterUtils
-import org.apache.spark.streaming.{ Seconds, StreamingContext }
+import org.apache.spark.streaming.dstream.DStream.toPairDStreamFunctions
+
 
 object TweetTweetWordCount extends Logging {
   def main(args: Array[String]) {
