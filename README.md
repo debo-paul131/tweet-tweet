@@ -13,11 +13,11 @@ sbt compile
 
 *cd tweet-tweet*
 
-*sbt "run-main com.tweet.TweetTweet <consumer key> <consumer secret> <access token> <access token secret>"* <br/>
+sbt "run-main com.tweet.TweetTweet **[consumer key]** **[consumer secret]** **[access token]** **[access token secret]**" <br/>
 
-*sbt "run-main com.tweet.TweetTweetWordCount <consumer key> <consumer secret> <access token> <access token secret>"* <br/>
+sbt "run-main com.tweet.TweetTweetWordCount **[consumer key]** **[consumer secret]** **[access token]** **[access token secret]**" <br/>
 
-*sbt "run-main com.tweet.NaiveBayesTrainer [Training dataset path]"*
+sbt "run-main com.tweet.NaiveBayesTrainer **[Training dataset path]**"
 
 
 #Running from Spark Submit
