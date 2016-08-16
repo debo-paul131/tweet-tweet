@@ -2,11 +2,9 @@
 .idea/
 project/
 target/
-data/twitterExtracts/*
 /bin/
 .cache-main
 .classpath
 .project
 .settings/
-streamingCheckPoint/*
-receivedBlockMetadata/*
+receivedBlockMetadata
