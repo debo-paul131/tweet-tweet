@@ -19,10 +19,23 @@ object NaiveBayesTrainer extends Logging {
 
   def main(args: Array[String]) {
 
-    val configuration = new Configuration(args)
-    val sc = configuration.sc
+    if (args.length < 1) {
+      System.err.println("Usage: <Training dataset path>")
+      System.exit(1)
+    }
 
-    val preparedData = sc.textFile("/Users/debojit/Downloads/smsspamcollection/SMSSpamCollection")
+    def conf: SparkConf = new SparkConf()
+      .setMaster("local[2]")
+      .setAppName("tweet-tweet")
+      .set("spark.executor.memory", "1g")
+      .set("spark.driver.allowMultipleContexts", "true")
+      .set("spark.logConf", "true")
+
+    def sc: SparkContext = new SparkContext(conf)
+    sc.setLogLevel("ERROR")
+
+    val datasetPath = args(0)
+    val preparedData = sc.textFile(datasetPath)
       .map(_.toLowerCase.split("\\s+"))
       .map(words => (words.head, words.tail.mkString(" ")))
 
