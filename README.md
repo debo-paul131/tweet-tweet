@@ -17,7 +17,7 @@ sbt compile
 
 *sbt "run-main TweetTweetWordCount <consumer key> <consumer secret> <access token> <access token secret>"* <br/>
 
-*sbt "run-main  NaiveBayesTrainer"*
+*sbt "run-main  NaiveBayesTrainer [Training dataset path]"*
 
 
 #Running from Spark Submit
