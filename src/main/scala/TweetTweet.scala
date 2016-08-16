@@ -24,7 +24,7 @@ import org.apache.log4j.{ Level, Logger }
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.classification.{ NaiveBayes, NaiveBayesModel }
 
-case class Extract(createdAt: String, geoInfo: String, text: String, stopWordRemovedText: String, intents: Double, sentiment: String)
+case class Extract(createdAt: String, geoInfo: String, text: String, stopWordRemovedText: String, intents: String, sentiment: String)
 
 object TweetTweet extends Logging {
   def main(args: Array[String]) {
@@ -32,7 +32,14 @@ object TweetTweet extends Logging {
     if (args.length < 4) {
       System.err.println("Usage: <consumer key> <consumer secret> <access token> <access token secret>")
       System.exit(1)
-     }
+    }
+
+    val filePath = args.takeRight(args.length - 4)
+
+    val (twitterExtractPath, stopWordFilePath) =
+      if (filePath.length == 2) {
+        (filePath(0), filePath(1))
+      } else ("data/twitterExtracts" , "data/stop-word-list.txt")
 
     val configuration = new Configuration(args)
 
@@ -42,7 +49,14 @@ object TweetTweet extends Logging {
     println("Twitter streaming initialized")
     val stream = TwitterUtils.createStream(ssc, None)
 
-  
+    val stopWords = Utils.loadStopWords(stopWordFilePath)
+
+    def removeStopWords(tweet: String): String = {
+      tweet.split("\\s+")
+        .filter(!stopWords.contains(_))
+        .mkString(" ")
+    }
+
     def detectSentiment(tweet: String): String = {
 
       val config = new NingAsyncHttpClientConfigBuilder(DefaultWSClientConfig()).build
@@ -92,20 +106,20 @@ object TweetTweet extends Logging {
 
     val filterByLang = stream.filter(_.getLang == "en")
 
-    val model = NaiveBayesModel.load(ssc.sparkContext, "data/intentsModel")
+    //val model = NaiveBayesModel.load(ssc.sparkContext, naiveBayesModelPath)
 
     val tweetsRDD = filterByLang.map { tw =>
 
       val cleanedText = Utils.cleanUp(tw.getText)
-      val remeovedStopWords = Utils.removeStopWords(cleanedText)
+      val remeovedStopWords = removeStopWords(cleanedText)
       val geoInfo = getGeoInformation(tw.getPlace, tw.getGeoLocation)
-      val intents = model.predict(Utils.featurize(cleanedText))
+      val intents = "UnKnown"
       val detectedSentiments = detectSentiment(cleanedText)
       Extract(tw.getCreatedAt.toInstant.toString, geoInfo, cleanedText, remeovedStopWords, intents, detectedSentiments)
     }
 
     tweetsRDD.foreachRDD(rdd => {
-      rdd.saveAsTextFile("data/twitterExtracts")
+      rdd.saveAsTextFile(twitterExtractPath)
       rdd.foreach {
         case (data) =>
           println(

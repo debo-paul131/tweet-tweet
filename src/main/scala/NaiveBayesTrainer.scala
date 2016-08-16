@@ -23,6 +23,13 @@ object NaiveBayesTrainer extends Logging {
       System.err.println("Usage: <Training dataset path>")
       System.exit(1)
     }
+    
+     val filePath = args.takeRight(args.length - 1)
+     
+     val naiveBayesModelPath =
+      if (filePath.length == 1) filePath(0)
+      else  "data/intentsModel"
+
 
     def conf: SparkConf = new SparkConf()
       .setMaster("local[2]")
@@ -61,7 +68,7 @@ object NaiveBayesTrainer extends Logging {
     val predictionAndLabel = testData.map { test =>
       (model.predict(test.features), test.label)
     }
-    model.save(sc, "data/intentsModel")
+    model.save(sc, naiveBayesModelPath)
     val accuracy = 1.0 * predictionAndLabel.filter(x => x._1 == x._2).count() / testData.count()
     println("accuracy: " + accuracy)
 

@@ -8,11 +8,17 @@ import org.apache.spark.streaming.{ Seconds, StreamingContext }
 
 object TweetTweetWordCount extends Logging {
   def main(args: Array[String]) {
-    
+
     if (args.length < 4) {
       System.err.println("Usage: <consumer key> <consumer secret> <access token> <access token secret>")
       System.exit(1)
     }
+
+    val filePath = args.takeRight(args.length - 4)
+
+    val stopWordFilePath =
+      if (filePath.length == 1) filePath(0)
+      else "data/stop-word-list.txt"
 
     val configuration = new Configuration(args)
     val sc = configuration.sc
@@ -27,9 +33,17 @@ object TweetTweetWordCount extends Logging {
       Some(values.sum + state.getOrElse(0))
     }
 
+    val stopWords = Utils.loadStopWords(stopWordFilePath)
+
+    def removeStopWords(tweet: String): String = {
+      tweet.split("\\s+")
+        .filter(!stopWords.contains(_))
+        .mkString(" ")
+    }
+
     val words = stream.flatMap { tw =>
       val afterCleanUp = Utils.cleanUp(tw.getText)
-      val renovedStopWord = Utils.removeStopWords(afterCleanUp)
+      val renovedStopWord = removeStopWords(afterCleanUp)
       renovedStopWord.split(" ")
     }
 
