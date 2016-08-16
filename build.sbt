@@ -9,6 +9,10 @@ fork in (IntegrationTest, run) := true
 scalaVersion := "2.10.2"
 ivyScala := ivyScala.value map { _.copy(overrideScalaVersion = true) }
 
+assemblyMergeStrategy in assembly := {
+   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+   case x => MergeStrategy.first
+}
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "1.6.0",
