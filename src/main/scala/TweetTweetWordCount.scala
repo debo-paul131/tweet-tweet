@@ -8,19 +8,18 @@ import org.apache.spark.streaming.{ Seconds, StreamingContext }
 
 object TweetTweetWordCount extends Logging {
   def main(args: Array[String]) {
-
-    //if (args.length < 4) {
-    //  System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
-    //    "<access token> <access token secret>")
-    //  System.exit(1)
-    // }
+    
+    if (args.length < 4) {
+      System.err.println("Usage: <consumer key> <consumer secret> <access token> <access token secret>")
+      System.exit(1)
+    }
 
     val configuration = new Configuration(args)
     val sc = configuration.sc
 
     val ssc = configuration.ssc
     ssc.checkpoint("streamingCheckPoint")
-    
+
     println("Twitter streaming initialized")
     val stream = TwitterUtils.createStream(ssc, None)
 

@@ -12,7 +12,7 @@ import org.apache.spark.streaming.twitter.TwitterUtils
 
 class Configuration(args: Array[String]) {
 
-  //val (consumerKey, consumerSecret, accessToken, accessTokenSecret) = (args(0),args(1),args(2),args(3))
+  val (consumerKey, consumerSecret, accessToken, accessTokenSecret) = (args(0),args(1),args(2),args(3))
 
   def conf: SparkConf = new SparkConf()
     .setMaster("local[2]")
@@ -28,9 +28,9 @@ class Configuration(args: Array[String]) {
 
   def ssc: StreamingContext = new StreamingContext(conf, Seconds(5))
 
-  System.setProperty("twitter4j.oauth.consumerKey", "u7wp5rQPLK29o68ImHNVhvwDj")
-  System.setProperty("twitter4j.oauth.consumerSecret", "3Logg8C01yc90sVlwbnw3phAkeCRWPiLhMtzkPNCWzNHNsPCjy")
-  System.setProperty("twitter4j.oauth.accessToken", "763019263015849984-m2sneXshUclxRaQJyz0yDvgg4vgKJuM")
-  System.setProperty("twitter4j.oauth.accessTokenSecret", "NAdyJJFOdK4p8JZOzILz3lbhbm7uMPe3B31JSZb9HoioD")
+  System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
+  System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
+  System.setProperty("twitter4j.oauth.accessToken", accessToken)
+  System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
 
 }

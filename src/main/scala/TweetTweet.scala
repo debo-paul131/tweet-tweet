@@ -29,11 +29,10 @@ case class Extract(createdAt: String, geoInfo: String, text: String, stopWordRem
 object TweetTweet extends Logging {
   def main(args: Array[String]) {
 
-    //if (args.length < 4) {
-    //  System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
-    //    "<access token> <access token secret>")
-    //  System.exit(1)
-    // }
+    if (args.length < 4) {
+      System.err.println("Usage: <consumer key> <consumer secret> <access token> <access token secret>")
+      System.exit(1)
+     }
 
     val configuration = new Configuration(args)
 
